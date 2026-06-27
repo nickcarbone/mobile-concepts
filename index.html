@@ -1,0 +1,1945 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mobile Intelligence — Six Concept Briefings</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;1,8..60,300&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg:       #07080C;
+    --bg-card:  #0D0F16;
+    --bg-inset: #111420;
+    --rule:     #1A1E2C;
+    --text:     #D6D1C4;
+    --text-dim: #7A8099;
+    --text-faint: #404660;
+    --amber:    #C4973A;
+    --amber-dim: #6B5020;
+    --blue:     #3B6A90;
+    --blue-dim: #1C3348;
+    --green:    #3D7A5A;
+    --red:      #7A3040;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Source Serif 4', Georgia, serif;
+    font-size: 17px;
+    line-height: 1.75;
+    font-weight: 300;
+  }
+
+  /* ── COVER ─────────────────────────────────────────── */
+  .cover {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 60px 64px;
+    border-bottom: 1px solid var(--rule);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cover::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 39px,
+      var(--rule) 39px,
+      var(--rule) 40px
+    );
+    opacity: 0.25;
+    pointer-events: none;
+  }
+
+  .cover-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+
+  .cover-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    color: var(--text-dim);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+
+  .cover-meta {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    color: var(--text-dim);
+    letter-spacing: 0.1em;
+    text-align: right;
+    line-height: 1.8;
+  }
+
+  .cover-main {
+    position: relative;
+  }
+
+  .cover-eyebrow {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: var(--amber);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 28px;
+  }
+
+  .cover-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(52px, 7vw, 96px);
+    font-weight: 300;
+    line-height: 1.0;
+    color: var(--text);
+    letter-spacing: -0.01em;
+    margin-bottom: 32px;
+    max-width: 820px;
+  }
+
+  .cover-title em {
+    font-style: italic;
+    color: var(--amber);
+  }
+
+  .cover-subtitle {
+    font-size: 18px;
+    color: var(--text-dim);
+    max-width: 600px;
+    line-height: 1.6;
+    font-weight: 300;
+  }
+
+  .cover-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+
+  .cover-nav {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--rule);
+    border: 1px solid var(--rule);
+    max-width: 720px;
+    flex: 1;
+  }
+
+  .cover-nav-item {
+    background: var(--bg-card);
+    padding: 14px 18px;
+    text-decoration: none;
+    transition: background 0.15s;
+  }
+
+  .cover-nav-item:hover { background: var(--bg-inset); }
+
+  .cover-nav-num {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    color: var(--amber);
+    letter-spacing: 0.1em;
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  .cover-nav-title {
+    font-family: 'Source Serif 4', serif;
+    font-size: 13px;
+    color: var(--text);
+    font-weight: 300;
+    display: block;
+    line-height: 1.3;
+  }
+
+  .cover-signal {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 8px;
+    margin-left: 48px;
+    flex-shrink: 0;
+  }
+
+  .signal-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    color: var(--text-faint);
+    letter-spacing: 0.12em;
+  }
+
+  /* ── NAV BAR ────────────────────────────────────────── */
+  .topnav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(7,8,12,0.96);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--rule);
+    display: flex;
+    align-items: center;
+    gap: 0;
+    overflow-x: auto;
+  }
+
+  .topnav-brand {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    color: var(--amber);
+    letter-spacing: 0.15em;
+    padding: 14px 24px;
+    border-right: 1px solid var(--rule);
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .topnav a {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    color: var(--text-dim);
+    text-decoration: none;
+    letter-spacing: 0.1em;
+    padding: 14px 18px;
+    border-right: 1px solid var(--rule);
+    white-space: nowrap;
+    transition: color 0.15s, background 0.15s;
+  }
+
+  .topnav a:hover { color: var(--amber); background: var(--bg-inset); }
+
+  /* ── CONCEPT BRIEF ──────────────────────────────────── */
+  .brief {
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .brief-header {
+    padding: 64px 64px 48px;
+    border-bottom: 1px solid var(--rule);
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 40px;
+    align-items: start;
+  }
+
+  .brief-code {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    color: var(--amber);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .brief-code::after {
+    content: '';
+    display: block;
+    height: 1px;
+    width: 80px;
+    background: var(--amber-dim);
+  }
+
+  .brief-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(36px, 4.5vw, 64px);
+    font-weight: 300;
+    line-height: 1.05;
+    color: var(--text);
+    margin-bottom: 20px;
+    letter-spacing: -0.01em;
+  }
+
+  .brief-thesis {
+    font-size: 19px;
+    color: var(--text-dim);
+    line-height: 1.6;
+    font-weight: 300;
+    max-width: 700px;
+    font-style: italic;
+    font-family: 'Cormorant Garamond', serif;
+  }
+
+  .brief-vitals {
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    min-width: 200px;
+  }
+
+  .vital {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .vital-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    color: var(--text-faint);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+
+  .vital-value {
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    color: var(--text);
+    letter-spacing: 0.05em;
+  }
+
+  .vital-value.amber { color: var(--amber); }
+  .vital-value.blue { color: #5B9ABF; }
+
+  .signal-bars {
+    display: flex;
+    gap: 3px;
+    align-items: flex-end;
+    height: 18px;
+  }
+
+  .bar {
+    width: 7px;
+    background: var(--text-faint);
+    border-radius: 1px;
+  }
+
+  .bar.lit { background: var(--amber); }
+  .bar:nth-child(1) { height: 5px; }
+  .bar:nth-child(2) { height: 8px; }
+  .bar:nth-child(3) { height: 11px; }
+  .bar:nth-child(4) { height: 14px; }
+  .bar:nth-child(5) { height: 18px; }
+
+  /* ── CONTENT SECTIONS ───────────────────────────────── */
+  .brief-body {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+  }
+
+  .section {
+    padding: 48px 64px;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .section.full {
+    grid-column: 1 / -1;
+  }
+
+  .section.right-border {
+    border-right: 1px solid var(--rule);
+  }
+
+  .section-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    color: var(--amber);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .section-label::after {
+    content: '';
+    display: block;
+    height: 1px;
+    flex: 1;
+    background: var(--rule);
+  }
+
+  .section p {
+    margin-bottom: 16px;
+    color: var(--text);
+    font-size: 16px;
+    line-height: 1.8;
+  }
+
+  .section p:last-child { margin-bottom: 0; }
+
+  h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 26px;
+    font-weight: 400;
+    color: var(--text);
+    margin-bottom: 20px;
+    line-height: 1.2;
+  }
+
+  /* ── REVENUE TABLE ──────────────────────────────────── */
+  .revenue-rows {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    background: var(--rule);
+    border: 1px solid var(--rule);
+    margin-top: 8px;
+  }
+
+  .revenue-row {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 20px;
+    align-items: start;
+    background: var(--bg-card);
+    padding: 14px 18px;
+  }
+
+  .revenue-row:first-child { background: var(--bg-inset); }
+
+  .rev-name {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: var(--text);
+    letter-spacing: 0.05em;
+  }
+
+  .rev-sub {
+    font-size: 13px;
+    color: var(--text-dim);
+    margin-top: 4px;
+    font-family: 'Source Serif 4', serif;
+  }
+
+  .rev-price {
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    color: var(--amber);
+    white-space: nowrap;
+    text-align: right;
+  }
+
+  /* ── PHASES ─────────────────────────────────────────── */
+  .phases {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    background: var(--rule);
+    border: 1px solid var(--rule);
+    margin-top: 8px;
+  }
+
+  .phase {
+    display: grid;
+    grid-template-columns: 90px 1fr;
+    gap: 0;
+    background: var(--bg-card);
+  }
+
+  .phase-num {
+    background: var(--bg-inset);
+    padding: 18px 14px;
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    color: var(--amber);
+    letter-spacing: 0.1em;
+    border-right: 1px solid var(--rule);
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .phase-timing {
+    font-size: 9px;
+    color: var(--text-faint);
+    letter-spacing: 0.05em;
+  }
+
+  .phase-content {
+    padding: 18px 20px;
+  }
+
+  .phase-title {
+    font-family: 'Source Serif 4', serif;
+    font-size: 14px;
+    font-weight: 400;
+    color: var(--text);
+    margin-bottom: 6px;
+  }
+
+  .phase-desc {
+    font-size: 13px;
+    color: var(--text-dim);
+    line-height: 1.6;
+  }
+
+  /* ── RISK / BULLETS ─────────────────────────────────── */
+  .risk-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 8px;
+  }
+
+  .risk-list li {
+    display: grid;
+    grid-template-columns: 24px 1fr;
+    gap: 10px;
+    align-items: start;
+    font-size: 15px;
+    color: var(--text-dim);
+    line-height: 1.6;
+  }
+
+  .risk-list li::before {
+    content: '—';
+    font-family: 'Space Mono', monospace;
+    color: var(--text-faint);
+    margin-top: 2px;
+  }
+
+  /* ── PARTNER PROFILE ────────────────────────────────── */
+  .partner-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 12px;
+  }
+
+  .tag {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    padding: 5px 12px;
+    border: 1px solid var(--blue-dim);
+    color: #5B9ABF;
+    letter-spacing: 0.08em;
+  }
+
+  .tag.amber {
+    border-color: var(--amber-dim);
+    color: var(--amber);
+  }
+
+  /* ── CANARY SYNERGY ─────────────────────────────────── */
+  .synergy-meter {
+    margin-top: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .synergy-track {
+    display: grid;
+    grid-template-columns: 140px 1fr auto;
+    gap: 14px;
+    align-items: center;
+  }
+
+  .synergy-name {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    color: var(--text-dim);
+    letter-spacing: 0.05em;
+  }
+
+  .synergy-bar-bg {
+    height: 4px;
+    background: var(--rule);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .synergy-bar-fill {
+    height: 100%;
+    background: var(--amber);
+    border-radius: 2px;
+  }
+
+  .synergy-pct {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    color: var(--amber);
+    width: 36px;
+    text-align: right;
+  }
+
+  /* ── CAPITAL CALLOUT ────────────────────────────────── */
+  .capital-block {
+    background: var(--bg-inset);
+    border: 1px solid var(--rule);
+    border-left: 3px solid var(--amber);
+    padding: 20px 24px;
+    margin-top: 12px;
+  }
+
+  .capital-amount {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 40px;
+    font-weight: 300;
+    color: var(--amber);
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+
+  .capital-note {
+    font-size: 13px;
+    color: var(--text-dim);
+    line-height: 1.5;
+  }
+
+  /* ── QUOTE BLOCK ────────────────────────────────────── */
+  .pull-quote {
+    border-left: 2px solid var(--amber);
+    padding: 20px 28px;
+    margin: 24px 0;
+    background: var(--bg-inset);
+  }
+
+  .pull-quote p {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    font-style: italic;
+    color: var(--text);
+    line-height: 1.5;
+    margin: 0 !important;
+  }
+
+  /* ── DIVIDER ────────────────────────────────────────── */
+  .brief-divider {
+    grid-column: 1 / -1;
+    height: 1px;
+    background: var(--rule);
+  }
+
+  /* ── FOOTER ─────────────────────────────────────────── */
+  footer {
+    padding: 48px 64px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  footer p {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    color: var(--text-faint);
+    letter-spacing: 0.1em;
+  }
+
+  /* ── RESPONSIVE ─────────────────────────────────────── */
+  @media (max-width: 900px) {
+    .cover { padding: 40px 32px; }
+    .brief-header { grid-template-columns: 1fr; padding: 40px 32px 32px; }
+    .brief-body { grid-template-columns: 1fr; }
+    .section { padding: 36px 32px; }
+    .section.right-border { border-right: none; }
+    .cover-nav { grid-template-columns: 1fr 1fr; }
+    footer { padding: 36px 32px; flex-direction: column; gap: 12px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ════════════════════════════════════════════════════════ COVER -->
+<section class="cover">
+  <div class="cover-top">
+    <div class="cover-label">CONFIDENTIAL — INTERNAL WORKING DOCUMENT<br>INTERNATIONAL MOBILE INTELLIGENCE VENTURES</div>
+    <div class="cover-meta">
+      PREPARED: JUNE 2026<br>
+      CLASSIFICATION: PROPRIETARY<br>
+      CONCEPTS: 06 OF 06
+    </div>
+  </div>
+
+  <div class="cover-main">
+    <div class="cover-eyebrow">Concept Intelligence Briefings</div>
+    <h1 class="cover-title">Six Ventures at the Edge of <em>Mobile Terrain</em></h1>
+    <p class="cover-subtitle">A private review of untapped business opportunities in international mobile network intelligence — assembled for a bootstrapped, partner-driven launch in 2026–2027.</p>
+  </div>
+
+  <div class="cover-bottom">
+    <nav class="cover-nav">
+      <a href="#brief-01" class="cover-nav-item">
+        <span class="cover-nav-num">01</span>
+        <span class="cover-nav-title">Pre-Trip Comms Briefing</span>
+      </a>
+      <a href="#brief-02" class="cover-nav-item">
+        <span class="cover-nav-num">02</span>
+        <span class="cover-nav-title">Mobile Terrain Intelligence</span>
+      </a>
+      <a href="#brief-03" class="cover-nav-item">
+        <span class="cover-nav-num">03</span>
+        <span class="cover-nav-title">Comms OPSEC Advisory</span>
+      </a>
+      <a href="#brief-04" class="cover-nav-item">
+        <span class="cover-nav-num">04</span>
+        <span class="cover-nav-title">Network Posture Monitoring</span>
+      </a>
+      <a href="#brief-05" class="cover-nav-item">
+        <span class="cover-nav-num">05</span>
+        <span class="cover-nav-title">Physical SIM Intel Platform</span>
+      </a>
+      <a href="#brief-06" class="cover-nav-item">
+        <span class="cover-nav-num">06</span>
+        <span class="cover-nav-title">Connectivity Concierge</span>
+      </a>
+    </nav>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════ STICKY NAV -->
+<nav class="topnav">
+  <span class="topnav-brand">MTI CONCEPTS</span>
+  <a href="#brief-01">01 / Pre-Trip Briefing</a>
+  <a href="#brief-02">02 / Terrain Intel</a>
+  <a href="#brief-03">03 / OPSEC Advisory</a>
+  <a href="#brief-04">04 / Posture Monitor</a>
+  <a href="#brief-05">05 / SIM Platform</a>
+  <a href="#brief-06">06 / Concierge</a>
+</nav>
+
+
+<!-- ════════════════════════════════════════════════════════ BRIEF 01 -->
+<article class="brief" id="brief-01">
+  <div class="brief-header">
+    <div>
+      <div class="brief-code">CONCEPT 01 — PTB</div>
+      <h2 class="brief-name">Pre-Trip Comms Briefing Service</h2>
+      <p class="brief-thesis">"The thing every travel security firm should offer but doesn't — a field-ready, country-specific intelligence package covering exactly what mobile network to use, what to avoid, and how to configure your devices before you land."</p>
+    </div>
+    <div class="brief-vitals">
+      <div class="vital">
+        <span class="vital-label">Viability</span>
+        <div class="signal-bars">
+          <div class="bar lit"></div>
+          <div class="bar lit"></div>
+          <div class="bar lit"></div>
+          <div class="bar lit"></div>
+          <div class="bar lit"></div>
+        </div>
+      </div>
+      <div class="vital">
+        <span class="vital-label">Capital to Launch</span>
+        <span class="vital-value amber">$2,000 – $5,000</span>
+      </div>
+      <div class="vital">
+        <span class="vital-label">Time to First Revenue</span>
+        <span class="vital-value">4 – 8 weeks</span>
+      </div>
+      <div class="vital">
+        <span class="vital-label">Revenue Type</span>
+        <span class="vital-value blue">Per-Project + Retainer</span>
+      </div>
+      <div class="vital">
+        <span class="vital-label">Partner Urgency</span>
+        <span class="vital-value amber">MEDIUM — Sales BD First</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="brief-body">
+
+    <div class="section full">
+      <div class="section-label">The Concept</div>
+      <p>The travel security industry — Control Risks, Kroll, Healix, Drum Cussac — delivers pre-trip briefings covering political risk, physical threat environments, medical infrastructure, and evacuation protocols. What none of them deliver, and what every journalist, corporate due diligence team, NGO field worker, and PE associate doing an emerging market site visit actually needs, is a <strong>communications terrain briefing</strong>: an actionable, field-ready document that answers exactly how to stay connected, stay private, and avoid the invisible risks of mobile networks in a specific country.</p>
+      <p>Coverage maps lie. Carrier marketing says nothing about surveillance posture, infrastructure reliability during political events, or the practical reality of which operator is fastest in the neighborhoods your client is actually visiting. A Pre-Trip Comms Briefing fills this gap with a structured deliverable: the best local operators with honest assessments of their quality and government relationships, SIM acquisition logistics (airport vs. local store, registration requirements and what data they expose), recommended device configuration, known network threats and IMSI catcher activity in that country, and practical do/don't guidance calibrated to the client's risk profile.</p>
+      <p>This is the fastest path to revenue of any concept in this document. The deliverable is intelligence — your inventory is knowledge you already possess. A PDF template, a clean website, and five sample briefs for high-demand destinations are sufficient to begin selling. No infrastructure. No capital-intensive build. No regulatory filings. The barrier to entry is being the person who actually knows this — which you are and your competitors are not.</p>
+      <div class="pull-quote"><p>The market for travel security briefings already exists and is well-funded. You are not creating demand. You are inserting yourself into an established buying process with a product that should already be there but isn't.</p></div>
+    </div>
+
+    <div class="section right-border">
+      <div class="section-label">The Gap</div>
+      <h3>What Doesn't Exist</h3>
+      <p>Travel risk firms brief physical and medical threats. Corporate IT gives generic VPN advice. Telecom carriers give you a roaming rate card. Travel blogs give you "get an Airalo eSIM." None of these tell you that Safaricom in Kenya is excellent in Nairobi but unreliable in the Northern Corridor, or that the dominant operator in Belarus shares subscriber data with state security services in real time, or that physical SIMs in Azerbaijan require biometric registration that creates a permanent government record of your presence.</p>
+      <p>This information exists in the heads of people who have spent careers inside the global telecoms system. It does not exist in any consumable, packaged product. The market has no Jane's for mobile networks. You can be that product.</p>
+    </div>
+
+    <div class="section">
+      <div class="section-label">Target Market</div>
+      <h3>Who Buys This</h3>
+      <p><strong>Tier 1 — Journalists &amp; Newsrooms:</strong> Foreign desks, investigative units, and freelancers covering conflict zones, elections, or authoritarian states. Organizations like AP, Reuters, NYT, Vice, and foreign policy journals have real safety budgets and known gaps here. CPJ and RSF (Reporters Without Borders) are distribution gatekeepers into this community.</p>
+      <p><strong>Tier 2 — NGO Field Operations:</strong> Organizations deploying staff into sensitive environments (Human Rights Watch, MSF, IRC, development finance institutions). They have existing security protocols with notable comms-layer gaps.</p>
+      <p><strong>Tier 3 — Corporate Due Diligence:</strong> PE associates, corporate lawyers, and management consultants traveling for deal due diligence in emerging markets. They travel frequently, they have money, and their firms already buy physical security briefings. This is the highest ARPU cohort.</p>
+      <p><strong>Tier 4 — Individual Professionals:</strong> Political risk analysts, diplomats, researchers, and security professionals who travel independently. Smaller ticket but large audience and good word-of-mouth network.</p>
+    </div>
+
+    <div class="section full">
+      <div class="section-label">Revenue Model</div>
+      <div class="revenue-rows">
+        <div class="revenue-row">
+          <div>
+            <div class="rev-name">INDIVIDUAL COUNTRY BRIEF</div>
+            <div class="rev-sub">Single-destination, one traveler, delivered as PDF + optional call. Turnaround 48–72 hours.</div>
+          </div>
+          <div class="rev-price">$150 – $300</div>
+        </div>
+        <div class="revenue-row">
+          <div>
+            <div class="rev-name">TEAM BRIEF (UP TO 5)</div>
+            <div class="rev-sub">Same destination, multiple travelers, includes a 30-min briefing call with team lead.</div>
+          </div>
+          <div class="rev-price">$400 – $600</div>
+        </div>
+        <div class="revenue-row">
+          <div>
+            <div class="rev-name">MULTI-COUNTRY ITINERARY</div>
+            <div class="rev-sub">Complex travel involving 2+ countries with handoff protocols between networks.</div>
+          </div>
+          <div class="rev-price">$500 – $900</div>
+        </div>
+        <div class="revenue-row">
+          <div>
+            <div class="rev-name">ORGANIZATION RETAINER</div>
+            <div class="rev-sub">Unlimited briefs per month for a single organization. Ideal for newsrooms and NGOs with regular travel programs. Includes quarterly network landscape review.</div>
+          </div>
+          <div class="rev-price">$1,500 – $4,000/mo</div>
+        </div>
+        <div class="revenue-row">
+          <div>
+            <div class="rev-name">RUSH / EMERGENCY</div>
+            <div class="rev-sub">Sub-24-hour turnaround for urgent deployments.</div>
+          </div>
+          <div class="rev-price">2× standard rate</div>
+        </div>
+        <div class="revenue-row">
+          <div>
+            <div class="rev-name">WHITE-LABEL SUPPLY TO TRAVEL RISK FIRMS</div>
+            <div class="rev-sub">Supply comms briefs to existing travel security firms who add it to their product suite under their own brand. Lower margin, higher volume.</div>
+          </div>
+          <div class="rev-price">$75 – $150 per brief</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section full">
+      <div class="section-label">Path to Market</div>
+      <div class="phases">
+        <div class="phase">
+          <div class="phase-num">PHASE 01<div class="phase-timing">Weeks 1–4</div></div>
+          <div class="phase-content">
+            <div class="phase-title">Build the Sample Portfolio</div>
+            <div class="phase-desc">Produce 5–8 sample briefs for high-demand destinations: Russia, China, Turkey, Nigeria, UAE, Georgia, Pakistan, Egypt. These serve as sales collateral, capability demonstration, and the seed of a paid brief library. The brief template itself should be designed with the care of a premium financial research product — not a Word doc, a designed PDF.</div>
+          </div>
+        </div>
+        <div class="phase">
+          <div class="phase-num">PHASE 02<div class="phase-timing">Weeks 4–8</div></div>
+          <div class="phase-content">
+            <div class="phase-title">Launch and First Sales</div>
+            <div class="phase-desc">Simple website (one page) with sample brief download gated behind email capture. Direct outreach to foreign editors, NGO security coordinators, and corporate travel managers in your network. Write one high-profile piece in a journalism trade publication (CJR, Nieman Lab, Press Gazette) establishing your authority. Target first paying client by week 8.</div>
+          </div>
+        </div>
+        <div class="phase">
+          <div class="phase-num">PHASE 03<div class="phase-timing">Months 2–4</div></div>
+          <div class="phase-content">
+            <div class="phase-title">Institutional Sales</div>
+            <div class="phase-desc">Identify 10 target organizations (newsrooms, NGOs, law firms with international practices) and pursue retainer relationships. Get a meeting at CPJ, RSF, and the DART Center for Journalism and Trauma — these are gatekeepers who recommend security products to journalists globally. One institutional endorsement unlocks a large buyer base.</div>
+          </div>
+        </div>
+        <div class="phase">
+          <div class="phase-num">PHASE 04<div class="phase-timing">Months 4–9</div></div>
+          <div class="phase-content">
+            <div class="phase-title">Partner Channels and White-Label</div>
+            <div class="phase-desc">Approach travel risk firms (Control Risks, Healix, Drum Cussac) with a white-label supply arrangement. They add your comms brief to their product suite; you get volume. This is lower-margin but high-volume and provides cover as the market matures. Also begin building the self-service order portal so briefs can be ordered without your direct involvement on every transaction.</div>
+          </div>
+        </div>
+        <div class="phase">
+          <div class="phase-num">PHASE 05<div class="phase-timing">Month 9+</div></div>
+          <div class="phase-content">
+            <div class="phase-title">Hire / Partner for Scale</div>
+            <div class="phase-desc">If demand is proven, bring in one or two regional specialists — people with deep knowledge of specific geographies (Sub-Saharan Africa, MENA, Southeast Asia) who can produce briefs for their regions. Nick becomes editor/quality control rather than sole producer. Business model begins to scale beyond a single expert's bandwidth.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section right-border">
+      <div class="section-label">Ideal Business Partner Profile</div>
+      <h3>What the Business Needs</h3>
+      <p>The first partner should be a <strong>relationship-driven BD professional</strong> — someone with an existing network in journalism, NGO security, or corporate travel management, who can open doors while Nick produces the intelligence. A former foreign correspondent who shifted into consulting, a travel security industry veteran, or an NGO security manager who's seen this gap from the inside would all be excellent fits.</p>
+      <p>Technical skills are not the priority for this concept at launch — the product is not technical to build. What scales this business is client relationships and sales, not engineering.</p>
+      <div class="partner-tags">
+        <span class="tag amber">Sales / BD</span>
+        <span class="tag">Journalism Network</span>
+        <span class="tag">NGO Sector</span>
+        <span class="tag">Corporate Security</span>
+        <span class="tag">Travel Risk Industry</span>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-label">Capital Requirements</div>
+      <div class="capital-block">
+        <div class="capital-amount">$2,000–$5,000</div>
+        <div class="capital-note">Website + design ($1,000–2,000), PDF template design for briefs ($500–1,000), email/CRM tools ($50/mo), sample brief production labor ($0 — Nick's time). No regulatory filings, no platform build, no infrastructure. This is the leanest concept in this document to launch.</div>
+      </div>
+    </div>
+
+    <div class="section full">
+      <div class="section-label">Risk Factors</div>
+      <ul class="risk-list">
+        <li>Nick is a single point of failure as the sole intelligence producer at launch. A sudden increase in demand or a period of reduced bandwidth can't be absorbed without a partner.</li>
+        <li>Individual brief sales are inherently lumpy revenue. Retainer conversion is what creates predictable income — that conversion depends on client trust, which takes time to build.</li>
+        <li>Sales cycle for institutional clients (newsrooms, NGOs) can run 2–4 months. Early revenue is likely to come from individuals, not organizations.</li>
+        <li>The position as "mobile network intelligence expert" requires a credibility signal — a byline in a respected publication, an institutional endorsement, or documented case studies. This is achievable but must be done before institutional sales can close.</li>
+        <li>Competitors could enter from either side: travel risk firms could add a comms module (unlikely without expertise), or pure cybersecurity firms could move toward physical network intelligence (more plausible but still niche).</li>
+      </ul>
+    </div>
+
+    <div class="section full">
+      <div class="section-label">Canary Intelligence Synergy</div>
+      <div class="synergy-meter">
+        <div class="synergy-track">
+          <span class="synergy-name">Intelligence Overlap</span>
+          <div class="synergy-bar-bg"><div class="synergy-bar-fill" style="width:92%"></div></div>
+          <span class="synergy-pct">92%</span>
+        </div>
+        <div class="synergy-track">
+          <span class="synergy-name">Client Base Overlap</span>
+          <div class="synergy-bar-bg"><div class="synergy-bar-fill" style="width:78%"></div></div>
+          <span class="synergy-pct">78%</span>
+        </div>
+        <div class="synergy-track">
+          <span class="synergy-name">Brand Compatibility</span>
+          <div class="synergy-bar-bg"><div class="synergy-bar-fill" style="width:85%"></div></div>
+          <span class="synergy-pct">85%</span>
+        </div>
+      </div>
+      <p style="margin-top:20px;">The intelligence produced for Pre-Trip Comms Briefings is essentially a retail version of the same analysis Canary delivers to PE and political risk clients. The firm at AXA XL that buys a Canary intelligence subscription is the same firm whose associates need a comms brief before flying to Lagos for due diligence. This product can be launched under the Canary brand, or maintained as a distinct consumer-facing product that feeds referrals upward into Canary's institutional tier.</p>
+    </div>
+
+  </div>
+</article>
+
+
+<!-- ════════════════════════════════════════════════════════ BRIEF 02 -->
+<article class="brief" id="brief-02">
+  <div class="brief-header">
+    <div>
+      <div class="brief-code">CONCEPT 02 — MTI</div>
+      <h2 class="brief-name">Mobile Terrain Intelligence</h2>
+      <p class="brief-thesis">"The first subscription intelligence service that treats the global mobile network landscape the way Stratfor treats geopolitics — analytical, opinionated, and useful to people who need to operate in it."</p>
+    </div>
+    <div class="brief-vitals">
+      <div class="vital">
+        <span class="vital-label">Viability</span>
+        <div class="signal-bars">
+          <div class="bar lit"></div>
+          <div class="bar lit"></div>
+          <div class="bar lit"></div>
+          <div class="bar lit"></div>
+          <div class="bar lit"></div>
+        </div>
+      </div>
+      <div class="vital">
+        <span class="vital-label">Capital to Launch</span>
+        <span class="vital-value amber">$5,000 – $15,000</span>
+      </div>
+      <div class="vital">
+        <span class="vital-label">Time to First Revenue</span>
+        <span class="vital-value">6 – 12 weeks</span>
+      </div>
+      <div class="vital">
+        <span class="vital-label">Revenue Type</span>
+        <span class="vital-value blue">Subscription (Recurring)</span>
+      </div>
+      <div class="vital">
+        <span class="vital-label">Partner Urgency</span>
+        <span class="vital-value amber">MEDIUM — Editorial or Platform</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="brief-body">
+
+    <div class="section full">
+      <div class="section-label">The Concept</div>
+      <p>Mobile Terrain Intelligence is the strategic, long-game concept in this document — the one that builds the deepest brand authority, creates the most durable recurring revenue, and over time positions you as the definitive analytical voice on the global mobile network landscape. It is also the concept that requires the most patience, because audience-built businesses compound slowly before they compound fast.</p>
+      <p>The product is a subscription intelligence publication covering the global mobile network landscape as a serious analytical domain: which operators are gaining ground and why, when connectivity becomes a geopolitical instrument, what infrastructure investments signal about a government's strategic priorities, how network degradation correlates with political instability, where the eSIM narrative obscures real market dynamics. Published on a regular cadence — weekly free edition, deeper paid editions — and positioned for the cohort of professionals who operate in the intersection of technology, geopolitics, and field work.</p>
+      <p>The gap this fills is absolute: there is no publication, no newsletter, no research service that covers mobile networks as geopolitical and operational intelligence. The trade press (Light Reading, Fierce Wireless, Telecom TV) covers the industry for industry insiders. Nobody covers it for the people who have to make decisions based on what those networks actually do in the field.</p>
+      <div class="pull-quote"><p>You're not competing with eSIM apps. You're competing with Stratfor, The Interpreter, and Lawfare — publications that turned deep domain expertise into sustainable subscription businesses. The model is proven; the domain is vacant.</p></div>
+      <p>MTI is also the flywheel that feeds every other concept in this document. A well-read publication creates credibility for Pre-Trip Briefings. It creates a list of warm leads for OPSEC Advisory engagements. It creates the data and case study inventory that powers Network Posture Monitoring. It creates the audience for the Physical SIM Platform. Building MTI is building the infrastructure for a portfolio of related businesses.</p>
+    </div>
+
+    <div class="section right-border">
+      <div class="section-label">The Gap</div>
+      <h3>What the Market is Missing</h3>
+      <p>The mobile network landscape is one of the most consequential and least understood geopolitical domains. Governments use networks to suppress dissent. Network outages predict political instability. Infrastructure investment patterns reveal strategic priorities before official announcements. Surveillance posture varies dramatically by country. eSIM policy is a proxy war for national sovereignty. None of this is covered anywhere that matters.</p>
+      <p>The professionals who most need this intelligence — journalists, political risk analysts, investors with emerging market exposure, NGO security directors, corporate travelers, and the growing cohort of intelligence-aware travelers — have no dedicated source. They piece together fragments from Reddit, telecom trade press, anecdotes from colleagues, and outdated blog posts. A publication that aggregates, synthesizes, and adds real analytical value commands genuine attention and real money.</p>
+    </div>
+
+    <div class="section">
+      <div class="section-label">Content Architecture</div>
+      <h3>What MTI Publishes</h3>
+      <p><strong>The Weekly Signal:</strong> Free weekly briefing covering one significant mobile network development globally — a network outage and what it signals, an operator acquisition and its implications, an eSIM policy change and what travelers should know. The hook that builds the subscriber list.</p>
+      <p><strong>Country Intelligence Packs:</strong> Deep-dive paid reports on individual markets — full operator landscape, infrastructure analysis, surveillance posture assessment, traveler guidance. Sold individually or included in higher subscription tiers.</p>
+      <p><strong>Event Dispatches:</strong> Time-sensitive analysis tied to breaking geopolitical events where network behavior is relevant — elections, protests, coups, natural disasters. The highest-value content for premium subscribers.</p>
+      <p><strong>The Network Register:</strong> A continuously updated database of global operators, their government relationships, infrastructure quality scores, and traveler advisories. The long-term data asset and eventual API product.</p>
+    </div>
+
+    <div class="section full">
+      <div class="section-label">Revenue Model</div>
+      <div class="revenue-rows">
+        <div class="revenue-row">
+          <div>
+            <div class="rev-name">FREE TIER — THE WEEKLY SIGNAL</div>
+            <div class="rev-sub">Weekly briefing, free forever. Audience-builder. Target: 5,000+ subscribers within 12 months.</div>
+          </div>
+          <div class="rev-price">$0 / top-of-funnel</div>
+        </div>
+        <div class="revenue-row">
+          <div>
+            <div class="rev-name">INDIVIDUAL SUBSCRIPTION</div>
+            <div class="rev-sub">Full archive access, all country packs, Event Dispatches, priority alerts. Target: 300–500 paying subscribers by month 12.</div>
+          </div>
+          <div class="rev-price">$15 – $25 / month</div>
+        </div>
+        <div class="revenue-row">
+          <div>
+            <div class="rev-name">TEAM LICENSE</div>
+            <div class="rev-sub">Up to 10 seats. For newsrooms, NGOs, and small firms. Includes quarterly briefing call with Nick.</div>
+          </div>
+          <div class="rev-price">$300 – $600 / month</div>
+        </div>
+        <div class="revenue-row">
+          <div>
+            <div class="rev-name">INSTITUTIONAL SUBSCRIPTION</div>
+            <div class="rev-sub">Unlimited seats + API access to The Network Register + custom research requests. For PE firms, insurance underwriters, and larger organizations.</div>
+          </div>
+          <div class="rev-price">$1,000 – $3,000 / month</div>
+        </div>
+        <div class="revenue-row">
+          <div>
+            <div class="rev-name">COUNTRY INTELLIGENCE PACKS</div>
+            <div class="rev-sub">Standalone deep-dive reports sold individually. High SEO value, good for driving individual subscriptions.</div>
+          </div>
+          <div class="rev-price">$50 – $150 each</div>
+        </div>
+        <div class="revenue-row">
+          <div>
+            <div class="rev-name">SYNDICATION / DATA LICENSING</div>
+            <div class="rev-sub">Long-term: license The Network Register data to travel apps, corporate travel platforms, and political risk firms.</div>
+          </div>
+          <div class="rev-price">Custom / enterprise</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section full">
+      <div class="section-label">Path to Market</div>
+      <div class="phases">
+        <div class="phase">
+          <div class="phase-num">PHASE 01<div class="phase-timing">Weeks 1–6</div></div>
+          <div class="phase-content">
+            <div class="phase-title">Publish Before You Launch</div>
+            <div class="phase-desc">Write 6–8 pieces of genuine analytical depth before the first subscriber sees anything. A publication that launches into the world with a deep back catalog reads as authoritative. One that launches with "issue 01" reads as speculative. Publish to a basic Substack or Ghost site. Name and brand the publication deliberately — this is a long-lived asset.</div>
+          </div>
+        </div>
+        <div class="phase">
+          <div class="phase-num">PHASE 02<div class="phase-timing">Weeks 6–12</div></div>
+          <div class="phase-content">
+            <div class="phase-title">Establish Voice and Audience</div>
+            <div class="phase-desc">Launch the free weekly. Pursue guest bylines in Foreign Policy, War on the Rocks, Nieman Lab, or similar publications that will send high-quality readers to MTI. Actively cultivate early subscribers — these are the community that recommends the publication to peers. Target 500 free subscribers before launching the paid tier.</div>
+          </div>
+        </div>
+        <div class="phase">
+          <div class="phase-num">PHASE 03<div class="phase-timing">Months 3–6</div></div>
+          <div class="phase-content">
+            <div class="phase-title">Launch Paid Tier</div>
+            <div class="phase-desc">Once the free audience has demonstrated genuine engagement (open rates above 40%, replies and shares), launch the paid individual tier. The founding subscriber cohort should be offered a discounted lifetime rate — these people are advocates, not just customers. Target 100 paying subscribers by month 6.</div>
+          </div>
+        </div>
+        <div class="phase">
+          <div class="phase-num">PHASE 04<div class="phase-timing">Months 6–12</div></div>
+          <div class="phase-content">
+            <div class="phase-title">Institutional Sales</div>
+            <div class="phase-desc">With proven engagement metrics and a body of published work, begin institutional outreach. Canary prospects (Columbia Capital, 57 Stars, AXA XL) are natural first targets. A newsroom's security team that uses Pre-Trip Briefs is a natural upsell to an MTI institutional subscription. Target 3–5 institutional accounts by end of year one.</div>
+          </div>
+        </div>
+        <div class="phase">
+          <div class="phase-num">PHASE 05<div class="phase-timing">Year 2+</div></div>
+          <div class="phase-content">
+            <div class="phase-title">The Network Register and API</div>
+            <div class="phase-desc">Build the database layer into a proper product — structured country-by-country data on operators, surveillance posture, network quality, SIM acquisition logistics. License this data to travel apps, corporate travel platforms, and political risk firms. This is the asset that eventually converts MTI from a publication into a data business.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section right-border">
+      <div class="section-label">Ideal Business Partner Profile</div>
+      <h3>What the Business Needs</h3>
+      <p>MTI needs either an <strong>editorial partner</strong> who can help produce content at scale and build the publication's voice beyond a single author — a former foreign correspondent, a political risk analyst, or a technology journalist with relevant expertise — or a <strong>platform/growth partner</strong> who handles the subscription infrastructure, SEO strategy, and community building while Nick produces the intelligence.</p>
+      <p>The most powerful version of this business is Nick as editor-in-chief and lead analyst, with a network of regional contributors who deepen geographic coverage. That's a phase two hire, not a launch requirement.</p>
+      <div class="partner-tags">
+        <span class="tag amber">Editorial / Publishing</span>
+        <span class="tag">Growth / SEO</span>
+        <span class="tag">Foreign Correspondent</span>
+        <span class="tag">Political Risk Background</span>
+        <span class="tag">Subscription Platform Ops</span>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-label">Capital Requirements</div>
+      <div class="capital-block">
+        <div class="capital-amount">$5,000–$15,000</div>
+        <div class="capital-note">Platform and design ($3,000–7,000), editorial tools and research subscriptions ($1,000–2,000), initial marketing and distribution ($1,000–3,000), legal/entity setup ($500–1,000). Substack launch is near-zero capital; a proper Ghost or custom platform costs more but signals professionalism. The investment is primarily time.</div>
+      </div>
+    </div>
+
+    <div class="section full">
+      <div class="section-label">Risk Factors</div>
+      <ul class="risk-list">
+        <li>Audience-built businesses compound slowly. Revenue at month 3 will be disappointing; revenue at month 18 can be substantial. This requires patience and a complementary faster-revenue stream (Pre-Trip Briefings).</li>
+        <li>Content production is relentless. A weekly publication requires a weekly publication — the cadence cannot slip without subscriber churn. Nick as sole author is a bandwidth constraint.</li>
+        <li>Niche publications live and die on the email list. Platform concentration risk (Substack policy changes, algorithm shifts) is real and must be mitigated by owning subscriber data.</li>
+        <li>The audience for mobile network intelligence as a paid product is genuinely small in absolute terms. The bet is that it's a high-ARPU audience willing to pay significant subscription fees — which the institutional tier must validate.</li>
+        <li>Building a defensible publication requires building a brand. Nick must be willing to be publicly known as the expert in this domain — which this document assumes, but is worth confirming as a personal commitment.</li>
+      </ul>
+    </div>
+
+    <div class="section full">
+      <div class="section-label">Canary Intelligence Synergy</div>
+      <div class="synergy-meter">
+        <div class="synergy-track">
+          <span class="synergy-name">Intelligence Overlap</span>
+          <div class="synergy-bar-bg"><div class="synergy-bar-fill" style="width:95%"></div></div>
+          <span class="synergy-pct">95%</span>
+        </div>
+        <div class="synergy-track">
+          <span class="synergy-name">Client Base Overlap</span>
+          <div class="synergy-bar-bg"><div class="synergy-bar-fill" style="width:70%"></div></div>
+          <span class="synergy-pct">70%</span>
+        </div>
+        <div class="synergy-track">
+          <span class="synergy-name">Brand Compatibility</span>
+          <div class="synergy-bar-bg"><div class="synergy-bar-fill" style="width:90%"></div></div>
+          <span class="synergy-pct">90%</span>
+        </div>
+      </div>
+      <p style="margin-top:20px;">MTI and Canary are the same intelligence product at different price points and packaging. MTI is the consumer/professional tier ($25/mo). Canary is the institutional/bespoke tier ($5,000+/mo retainer). They are not competitors — they are a funnel. MTI builds the audience, establishes the authority, and feeds warm institutional leads directly to Canary. The Network Register database eventually becomes Canary's data infrastructure layer. These two businesses are more powerful together than either is alone.</p>
+    </div>
+
+  </div>
+</article>
+
+
+<!-- ════════════════════════════════════════════════════════ BRIEF 03 -->
+<article class="brief" id="brief-03">
+  <div class="brief-header">
+    <div>
+      <div class="brief-code">CONCEPT 03 — COA</div>
+      <h2 class="brief-name">Communications OPSEC Advisory</h2>
+      <p class="brief-thesis">"A boutique advisory that does for mobile communications what Control Risks does for physical security — trains organizations to understand and navigate the specific radio-layer threats that put their people at risk in the field."</p>
+    </div>
+    <div class="brief-vitals">
+      <div class="vital">
+        <span class="vital-label">Viability</span>
+        <div class="signal-bars">
+          <div class="bar lit"></div>
+          <div class="bar lit"></div>
+          <div class="bar lit"></div>
+          <div class="bar lit"></div>
+          <div class="bar"></div>
+        </div>
+      </div>
+      <div class="vital">
+        <span class="vital-label">Capital to Launch</span>
+        <span class="vital-value amber">$5,000 – $12,000</span>
+      </div>
+      <div class="vital">
+        <span class="vital-label">Time to First Revenue</span>
+        <span class="vital-value">8 – 16 weeks</span>
+      </div>
+      <div class="vital">
+        <span class="vital-label">Revenue Type</span>
+        <span class="vital-value blue">Project + Training + Retainer</span>
+      </div>
+      <div class="vital">
+        <span class="vital-label">Partner Urgency</span>
+        <span class="vital-value amber">HIGH — Technical Co-Expert</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="brief-body">
+
+    <div class="section full">
+      <div class="section-label">The Concept</div>
+      <p>The communications OPSEC gap is hiding in plain sight. The corporate security industry runs extensive risk management programs for organizations that send people into dangerous environments — physical threat assessments, kidnapping response protocols, medical evacuation plans. Journalists are briefed on hostile environment training. NGO workers complete security management courses. What none of these programs meaningfully addresses is the radio-layer threat: IMSI catchers in airports and government buildings, surveillance networks that log every device that connects to them, state-controlled operators that provide real-time location data to security services, and the specific ways that a standard smartphone with a standard SIM card can betray a traveler's identity, location, contacts, and movements before they've said a single word.</p>
+      <p>This is not abstract risk. Turkey, Russia, China, UAE, Egypt, Ethiopia, Pakistan, Belarus, and dozens of other countries operate infrastructure specifically designed to intercept and record mobile communications, identify foreign devices, and log user activity. A journalist entering one of these countries without a proper comms OPSEC protocol is not just inconvenienced — they are potentially putting sources, colleagues, and themselves at risk.</p>
+      <p>A Communications OPSEC Advisory fills this gap with three products: organizational assessments (auditing an organization's current mobile security posture and producing recommendations), training programs (half-day or full-day workshops that give field teams practical skills), and ongoing advisory retainers (available on-call as organizations deploy into new environments). The clients already exist and are already spending money on security — they're simply spending it on everything except this.</p>
+      <div class="pull-quote"><p>The posture shift you're making here: you are not a cybersecurity firm. You are a mobile network intelligence expert with deep operational knowledge of how networks are actually used as instruments of state power. That is a more defensible and more credible position than "cybersecurity consultant."</p></div>
+    </div>
+
+    <div class="section right-border">
+      <div class="section-label">Target Market</div>
+      <h3>Who Has This Problem</h3>
+      <p><strong>Investigative Journalism Units:</strong> The Guardian, NYT Investigations, OCCRP, Bellingcat, and regional investigative outlets. These organizations are often specifically targeted by state surveillance precisely because of their reporting. Their security budgets have grown substantially since 2016.</p>
+      <p><strong>Human Rights and Advocacy Organizations:</strong> Human Rights Watch, Amnesty International, Committee to Protect Journalists, Freedom House. They send staff into hostile environments regularly and have sophisticated security programs with notable comms gaps.</p>
+      <p><strong>International Development Finance:</strong> DFI field teams from IFC, CDC Group, DEG, and similar institutions conducting project assessments in frontier markets. Less aware of the risk, but high-value targets with real security budgets.</p>
+      <p><strong>Legal and Investigative Firms:</strong> Law firms with international arbitration practices, forensic accounting firms, and due diligence specialists who conduct sensitive investigations involving hostile counterparties.</p>
+    </div>
+
+    <div class="section">
+      <div class="section-label">What This Advisory Delivers</div>
+      <h3>Service Lines</h3>
+      <p><strong>Organizational Assessment:</strong> A review of an organization's current mobile device and network security practices — what devices field staff carry, what operators they use, what apps handle sensitive communications, what protocols exist for high-risk destinations. Delivered as a report with prioritized recommendations.</p>
+      <p><strong>Field Team Training:</strong> A half-day or full-day workshop for field-deploying teams covering: how IMSI catchers work and how to detect them, how to select operators in specific countries, device configuration for hostile environments, SIM strategy (when to use a local SIM, when to avoid all SIMs, when to go satellite), and practical communications protocols for high-risk situations.</p>
+      <p><strong>Destination Briefings:</strong> Specific pre-deployment briefings for teams entering a defined country — what the threat landscape looks like, what operators to use and avoid, how to acquire communications infrastructure upon arrival.</p>
+      <p><strong>Ongoing Advisory Retainer:</strong> An organization pays a monthly retainer for on-call advisory access — Nick and partner are available to brief any deployment, answer comms security questions, and provide alerts when threat conditions change in relevant markets.</p>
+    </div>
+
+    <div class="section full">
+      <div class="section-label">Revenue Model</div>
+      <div class="revenue-rows">
+        <div class="revenue-row">
+          <div>
+            <div class="rev-name">ORGANIZATIONAL ASSESSMENT</div>
+            <div class="rev-sub">Full audit of current mobile security posture + written report with recommendations. Delivered over 2–3 weeks. Appropriate for organizations with 20–200 field-deploying staff.</div>
+          </div>
+          <div class="rev-price">$5,000 – $15,000</div>
+        </div>
+        <div class="revenue-row">
+          <div>
+            <div class="rev-name">HALF-DAY TRAINING</div>
+            <div class="rev-sub">Practical communications OPSEC workshop. On-site delivery. Up to 20 participants. Custom materials per client. Travel and expenses additional.</div>
+          </div>
+          <div class="rev-price">$4,000 – $8,000</div>
+        </div>
+        <div class="revenue-row">
+          <div>
+            <div class="rev-name">FULL-DAY TRAINING</div>
+            <div class="rev-sub">Comprehensive program including practical exercises, device setup lab, and role-specific scenarios. Up to 15 participants for hands-on sessions.</div>
+          </div>
+          <div class="rev-price">$8,000 – $15,000</div>
+        </div>
+        <div class="revenue-row">
+          <div>
+            <div class="rev-name">PRE-DEPLOYMENT BRIEFING</div>
+            <div class="rev-sub">90-minute briefing for team deploying to a specific country. Can be delivered remotely. Includes destination-specific written brief.</div>
+          </div>
+          <div class="rev-price">$1,500 – $3,000</div>
+        </div>
+        <div class="revenue-row">
+          <div>
+            <div class="rev-name">ADVISORY RETAINER</div>
+            <div class="rev-sub">Monthly retainer for on-call advisory access. Unlimited deployment briefings, quarterly posture review, priority alerts for relevant market changes.</div>
+          </div>
+          <div class="rev-price">$2,500 – $6,000 / month</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section full">
+      <div class="section-label">Path to Market</div>
+      <div class="phases">
+        <div class="phase">
+          <div class="phase-num">PHASE 01<div class="phase-timing">Weeks 1–6</div></div>
+          <div class="phase-content">
+            <div class="phase-title">Establish the Methodology</div>
+            <div class="phase-desc">Develop the assessment framework, training curriculum, and a robust "radio-layer threat" knowledge base. Write a high-profile public piece — Foreign Policy, CJR, Columbia Journalism Review, or similar — on the specific threat that IMSI catchers and surveillance networks pose to journalists. This piece is the proof-of-expertise that makes institutional outreach credible.</div>
+          </div>
+        </div>
+        <div class="phase">
+          <div class="phase-num">PHASE 02<div class="phase-timing">Weeks 6–12</div></div>
+          <div class="phase-content">
+            <div class="phase-title">Journalism Sector Entry Point</div>
+            <div class="phase-desc">Contact the Committee to Protect Journalists, Reporters Without Borders, ICFJ (International Center for Journalists), and the Reuters Digital News Safety team. These are gatekeepers who recommend security trainers to newsrooms globally. One endorsement or referral from CPJ reaches hundreds of newsrooms. Journalism is the lower-margin but faster-relationship sector — start here to build case studies, then use them in corporate sales.</div>
+          </div>
+        </div>
+        <div class="phase">
+          <div class="phase-num">PHASE 03<div class="phase-timing">Months 3–6</div></div>
+          <div class="phase-content">
+            <div class="phase-title">Find the Technical Co-Expert Partner</div>
+            <div class="phase-desc">This concept is significantly stronger with a partner who has technical security credentials — specifically someone with cellular security / RF security background who can add technical credibility to what Nick brings as network intelligence expertise. Look for former telecoms security professionals, academic researchers in cellular security, or practitioners from the digital rights space (EFF, Access Now have networks of relevant people).</div>
+          </div>
+        </div>
+        <div class="phase">
+          <div class="phase-num">PHASE 04<div class="phase-timing">Months 6–12</div></div>
+          <div class="phase-content">
+            <div class="phase-title">Corporate and Institutional Sales</div>
+            <div class="phase-desc">With journalism-sector case studies in hand, pursue the higher-margin corporate client base: law firms with international investigations practices, forensic accounting firms, development finance institutions, and corporate security departments of multinationals with emerging market exposure. These clients have larger budgets and longer retainer relationships.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section right-border">
+      <div class="section-label">Ideal Business Partner Profile</div>
+      <h3>What Makes This Work</h3>
+      <p>Of all concepts in this document, this one most urgently needs a co-expert partner rather than just a sales or operations partner. The ideal person has a <strong>technical security background in cellular networks</strong> — a former MNO security engineer, a cellular security researcher, someone from the military or intelligence community with SIGINT/COMINT exposure, or a digital rights practitioner who has done hands-on IMSI catcher research.</p>
+      <p>Nick brings the geopolitical and network intelligence context. The partner brings the technical security credibility. Together the proposition is substantially stronger than either could achieve alone — and it's much harder for competitors to replicate a two-person team with complementary expertise than a single generalist.</p>
+      <div class="partner-tags">
+        <span class="tag amber">Cellular Security Tech</span>
+        <span class="tag">SIGINT / COMINT Background</span>
+        <span class="tag">Digital Rights</span>
+        <span class="tag">Security Trainer</span>
+        <span class="tag">RF Security Research</span>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-label">Capital Requirements</div>
+      <div class="capital-block">
+        <div class="capital-amount">$5,000–$12,000</div>
+        <div class="capital-note">Methodology and curriculum development ($2,000–4,000 in time value), website and collateral design ($2,000–3,000), training materials and handouts ($500–1,000), legal entity and professional liability insurance ($1,000–2,000). Training delivery equipment (signal detection tools, demonstration devices) may add $1,000–2,000 for a hands-on lab.</div>
+      </div>
+    </div>
+
+    <div class="section full">
+      <div class="section-label">Risk Factors</div>
+      <ul class="risk-list">
+        <li>Positioning matters enormously. "Cybersecurity consultant" is a crowded space with licensed practitioners. "Mobile network intelligence expert specializing in field communications" is a different and more defensible position — but requires care in how it's communicated to avoid regulatory exposure.</li>
+        <li>The journalism sector is relationship-driven and slow-paying. Organizations with real budgets (development finance, corporate) require a longer sales cycle to access. The path to revenue is likely journalism first (credibility) then corporate (income).</li>
+        <li>Without a technical partner, there's a credibility gap in the training product — Nick knows networks as intelligence infrastructure; explaining specific technical exploits requires additional expertise. The right co-expert makes this gap disappear.</li>
+        <li>Professional liability exposure is present for any advisory business that makes security recommendations. Professional indemnity insurance is not optional.</li>
+        <li>Government contractor adjacency (military, defense, intelligence community) is potentially lucrative but operationally complex — requires separate legal and clearance considerations that are out of scope for a bootstrapped launch.</li>
+      </ul>
+    </div>
+
+    <div class="section full">
+      <div class="section-label">Canary Intelligence Synergy</div>
+      <div class="synergy-meter">
+        <div class="synergy-track">
+          <span class="synergy-name">Intelligence Overlap</span>
+          <div class="synergy-bar-bg"><div class="synergy-bar-fill" style="width:72%"></div></div>
+          <span class="synergy-pct">72%</span>
+        </div>
+        <div class="synergy-track">
+          <span class="synergy-name">Client Base Overlap</span>
+          <div class="synergy-bar-bg"><div class="synergy-bar-fill" style="width:55%"></div></div>
+          <span class="synergy-pct">55%</span>
+        </div>
+        <div class="synergy-track">
+          <span class="synergy-name">Brand Compatibility</span>
+          <div class="synergy-bar-bg"><div class="synergy-bar-fill" style="width:65%"></div></div>
+          <span class="synergy-pct">65%</span>
+        </div>
+      </div>
+      <p style="margin-top:20px;">The COA serves a partially different client base than Canary — Canary's clients want network intelligence for investment and risk decisions, while COA's clients need communications security for operational field deployments. There is meaningful overlap (an AXA XL underwriter needs both) but also significant divergence (NGO field workers are not Canary clients). Under a unified brand umbrella, COA adds credibility and diversity. As a standalone, it requires its own market positioning. The journalism and NGO sector relationships COA builds are valuable future distribution channels for MTI and Pre-Trip Briefings.</p>
+    </div>
+
+  </div>
+</article>
+
+
+<!-- ════════════════════════════════════════════════════════ BRIEF 04 -->
+<article class="brief" id="brief-04">
+  <div class="brief-header">
+    <div>
+      <div class="brief-code">CONCEPT 04 — NPM</div>
+      <h2 class="brief-name">Network Posture Monitoring</h2>
+      <p class="brief-thesis">"A continuous monitoring service that watches mobile network conditions in markets where organizations have operational exposure — producing alerts when network behavior signals risk before other intelligence sources do."</p>
+    </div>
+    <div class="brief-vitals">
+      <div class="vital">
+        <span class="vital-label">Viability</span>
+        <div class="signal-bars">
+          <div class="bar lit"></div>
+          <div class="bar lit"></div>
+          <div class="bar lit"></div>
+          <div class="bar lit"></div>
+          <div class="bar"></div>
+        </div>
+      </div>
+      <div class="vital">
+        <span class="vital-label">Capital to Launch</span>
+        <span class="vital-value amber">$10,000 – $35,000</span>
+      </div>
+      <div class="vital">
+        <span class="vital-label">Time to First Revenue</span>
+        <span class="vital-value">3 – 6 months</span>
+      </div>
+      <div class="vital">
+        <span class="vital-label">Revenue Type</span>
+        <span class="vital-value blue">Recurring / SaaS-like</span>
+      </div>
+      <div class="vital">
+        <span class="vital-label">Partner Urgency</span>
+        <span class="vital-value amber">CRITICAL — Technical Build</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="brief-body">
+
+    <div class="section full">
+      <div class="section-label">The Concept</div>
+      <p>Political risk monitoring services — Verisk Maplecroft, Control Risks, Oxford Analytica — track news events, government actions, and macroeconomic indicators. None of them monitor the network layer. But the mobile network is one of the most sensitive leading indicators of political instability and state action available. Selective internet throttling precedes election fraud. Cell tower density changes predict military buildup. Network blackouts are the first tool of authoritarian crackdown — often deployed before official announcements reach international media. SIM registration policy changes signal shifting surveillance posture. Operator ownership changes that bring state influence into private infrastructure go largely unreported.</p>
+      <p>Network Posture Monitoring (NPM) is a subscription service that tracks these signals continuously in client-specified markets, synthesizes them into a network condition index, and sends alerts when conditions change in ways that indicate elevated risk. For a PE firm with a portfolio company in Indonesia, an alert that the dominant local operator has experienced unusual network throttling in the capital region — ahead of an election — is genuinely valuable leading intelligence. For an insurance underwriter with political risk exposure in Sub-Saharan Africa, a report that a government has changed SIM registration requirements in a way that indicates tightening social control is worth knowing before it becomes general news.</p>
+      <p>This is the highest-ceiling concept in this document, and also the most technically intensive. At launch, monitoring is manual — Nick and partner track signals, produce weekly reports, send alerts. As the client base grows, the monitoring layer is progressively automated. The long-term asset is a network condition database that becomes increasingly valuable as historical patterns validate the signal quality of the indicators.</p>
+      <div class="pull-quote"><p>The core bet is that network behavior is a leading indicator, not a lagging one. If that's true — and there's strong evidence it is — this is intelligence that political risk clients will pay recurring fees to receive.</p></div>
+    </div>
+
+    <div class="section right-border">
+      <div class="section-label">What Gets Monitored</div>
+      <h3>The Signal Set</h3>
+      <p><strong>Network Performance Anomalies:</strong> Unusual latency spikes, selective throttling by geography or application type, and bandwidth degradation that is inconsistent with network maintenance patterns. These are often the earliest signals of state intervention in network infrastructure.</p>
+      <p><strong>Operator Ownership and Regulatory Changes:</strong> License modifications, ownership structure changes, government stake acquisition, and regulatory actions that change the effective control of network infrastructure.</p>
+      <p><strong>SIM Policy and Registration Changes:</strong> New registration requirements, biometric collection mandates, and foreign SIM restrictions that indicate shifting surveillance or border control posture.</p>
+      <p><strong>Infrastructure Events:</strong> New tower deployments, frequency allocation changes, and infrastructure investment patterns that signal strategic military or population control priorities.</p>
+      <p><strong>Outage and Blackout Events:</strong> Selective or total network disruptions, with analysis of which networks are affected, in which geographies, at what times — cross-referenced against political and security events.</p>
+    </div>
+
+    <div class="section">
+      <div class="section-label">Target Market</div>
+      <h3>Who Pays for This</h3>
+      <p><strong>Boutique PE Firms with EM Exposure:</strong> Firms like 57 Stars, Helios Investment Partners, and similar organizations with direct investments in frontier and emerging markets. A portfolio company's operational stability depends on the country's network infrastructure. Early warning of network disruption has direct P&L implications.</p>
+      <p><strong>Political Risk Insurers:</strong> Underwriters at AXA XL, Lloyd's syndicates, and similar firms pricing political risk policies need leading indicators that current models don't include. Network posture data is a genuinely novel input.</p>
+      <p><strong>Development Finance Institutions:</strong> IFC, OPIC (now DFC), CDC Group, and bilateral DFIs with project portfolios in complex markets. Their project monitoring requirements are extensive and compliance-driven.</p>
+      <p><strong>Political Risk Consultancies:</strong> Firms like Oxford Analytica, Eurasia Group, and Teneo can license NPM as a data input to their own products, making them a channel partner rather than a direct competitor.</p>
+    </div>
+
+    <div class="section full">
+      <div class="section-label">Revenue Model</div>
+      <div class="revenue-rows">
+        <div class="revenue-row">
+          <div>
+            <div class="rev-name">MARKET MONITORING — SINGLE COUNTRY</div>
+            <div class="rev-sub">Weekly network condition report + real-time alerts for one country. Covers all major operators and infrastructure events. Manual delivery at launch, platform-delivered at scale.</div>
+          </div>
+          <div class="rev-price">$500 – $1,200 / month</div>
+        </div>
+        <div class="revenue-row">
+          <div>
+            <div class="rev-name">REGIONAL BUNDLE — 5 MARKETS</div>
+            <div class="rev-sub">Comprehensive monitoring for a defined region (e.g., West Africa, Southeast Asia, MENA). Includes comparative analysis and cross-market signal correlation.</div>
+          </div>
+          <div class="rev-price">$2,000 – $3,500 / month</div>
+        </div>
+        <div class="revenue-row">
+          <div>
+            <div class="rev-name">ALERT-ONLY TIER</div>
+            <div class="rev-sub">No weekly reports — only push alerts when conditions change significantly. For clients with existing in-country teams who only need a heads-up layer.</div>
+          </div>
+          <div class="rev-price">$200 – $500 / month per market</div>
+        </div>
+        <div class="revenue-row">
+          <div>
+            <div class="rev-name">DATA FEED / API (SCALE)</div>
+            <div class="rev-sub">Structured network condition data delivered via API for integration into client risk platforms, dashboards, or Bloomberg terminals. Enterprise pricing. Phase 3 product.</div>
+          </div>
+          <div class="rev-price">Custom / $5,000 – $15,000 / month</div>
+        </div>
+        <div class="revenue-row">
+          <div>
+            <div class="rev-name">EVENT ANALYSIS SUPPLEMENTS</div>
+            <div class="rev-sub">On-demand deep analysis commissioned around specific events — an election, a coup attempt, a sanctions announcement. Priced as a project add-on for retainer clients.</div>
+          </div>
+          <div class="rev-price">$2,000 – $8,000 per event</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section full">
+      <div class="section-label">Path to Market</div>
+      <div class="phases">
+        <div class="phase">
+          <div class="phase-num">PHASE 01<div class="phase-timing">Months 1–3</div></div>
+          <div class="phase-content">
+            <div class="phase-title">Manual Monitoring as a Service</div>
+            <div class="phase-desc">Launch with 2–3 pilot clients at below-market rates ($200–400/mo) in exchange for feedback and case study rights. Nick manually monitors specified markets, produces weekly briefings, and tracks signal quality. No tech build required at this stage — the MVP is Google Docs and email. The goal is to prove signal quality, not to scale.</div>
+          </div>
+        </div>
+        <div class="phase">
+          <div class="phase-num">PHASE 02<div class="phase-timing">Months 3–6</div></div>
+          <div class="phase-content">
+            <div class="phase-title">Build the Case Study</div>
+            <div class="phase-desc">Document instances where network signals preceded conventional intelligence by meaningful lead times. If NPM identified a network disruption pattern in a client's market 72 hours before it appeared in major news media — that is the product's entire sales pitch, expressed as a concrete example. Three or four such examples, documented and permissioned by clients, are sufficient to begin serious institutional sales.</div>
+          </div>
+        </div>
+        <div class="phase">
+          <div class="phase-num">PHASE 03<div class="phase-timing">Months 6–12</div></div>
+          <div class="phase-content">
+            <div class="phase-title">Tech Build and Platform Layer</div>
+            <div class="phase-desc">With proven client value and a technical partner engaged, build the first version of the monitoring platform: data ingestion from open network monitoring sources (RIPE Atlas, OONI, Cloudflare Radar, BGP routing tables), automated anomaly detection, and a simple client-facing dashboard. This is the partner's domain — Nick produces the analytical intelligence layer on top of the data infrastructure.</div>
+          </div>
+        </div>
+        <div class="phase">
+          <div class="phase-num">PHASE 04<div class="phase-timing">Year 2+</div></div>
+          <div class="phase-content">
+            <div class="phase-title">Institutional Scale and API</div>
+            <div class="phase-desc">With a validated platform and a growing case study library, pursue enterprise and institutional sales. Target political risk firms as channel partners — their distribution into the exact client base NPM needs is a force multiplier. Begin building the API layer for data feed licensing. At this stage, NPM and Canary are essentially the same business intelligence product at different layers of abstraction.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section right-border">
+      <div class="section-label">Ideal Business Partner Profile</div>
+      <h3>The Critical Need</h3>
+      <p>This concept cannot reach its potential without a <strong>technical co-founder or senior technical partner</strong>. The data sources for network monitoring are public (RIPE Atlas, OONI, BGP monitoring, Cloudflare Radar, Internet Archive's network measurement data) but building automated ingestion, anomaly detection, and a client-facing dashboard requires real engineering. The ideal partner is a data engineer or software developer with interest in geopolitical intelligence — someone who has worked in fintech data platforms, cyber threat intelligence, or network monitoring and wants to build something with more analytical depth.</p>
+      <p>This is also the concept where a partner with PE or political risk <em>client relationships</em> is most valuable — the sales cycle into institutional clients is long and relationship-dependent.</p>
+      <div class="partner-tags">
+        <span class="tag amber">Data Engineer / SWE</span>
+        <span class="tag">Network Monitoring</span>
+        <span class="tag">Cyber Threat Intel Background</span>
+        <span class="tag">PE / Risk Client Relationships</span>
+        <span class="tag">API Platform Experience</span>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-label">Capital Requirements</div>
+      <div class="capital-block">
+        <div class="capital-amount">$10,000–$35,000</div>
+        <div class="capital-note">Manual phase (0–6 months): near-zero beyond entity and website. Tech build phase: $10,000–30,000 depending on scope and whether the partner works for equity vs. cash. Data infrastructure costs are low initially (open sources) but grow with scale. This is the highest-capital concept at full build-out, though the manual phase is lean.</div>
+      </div>
+    </div>
+
+    <div class="section full">
+      <div class="section-label">Risk Factors</div>
+      <ul class="risk-list">
+        <li>The core claim — that network signals are leading indicators of political events — must be empirically validated. A case study library that proves signal quality is non-negotiable before serious institutional sales can close.</li>
+        <li>Open-source network monitoring data has significant gaps and limitations. In some markets the data is sparse or unreliable. Understanding where your coverage is authoritative and where it's partial is critical to client trust.</li>
+        <li>Technical partner dependency is high. If the technical build partner exits or is unavailable, the product stalls. This needs to be structured carefully from the start.</li>
+        <li>Institutional sales cycles in PE and insurance are typically 3–6 months. This is the slowest revenue ramp of any concept in this document, despite having the highest potential recurring contract value.</li>
+        <li>As this product grows, it begins to look like a fintech data business — attracting different investor profiles, regulatory considerations, and competitive dynamics than a boutique advisory.</li>
+      </ul>
+    </div>
+
+    <div class="section full">
+      <div class="section-label">Canary Intelligence Synergy</div>
+      <div class="synergy-meter">
+        <div class="synergy-track">
+          <span class="synergy-name">Intelligence Overlap</span>
+          <div class="synergy-bar-bg"><div class="synergy-bar-fill" style="width:98%"></div></div>
+          <span class="synergy-pct">98%</span>
+        </div>
+        <div class="synergy-track">
+          <span class="synergy-name">Client Base Overlap</span>
+          <div class="synergy-bar-bg"><div class="synergy-bar-fill" style="width:90%"></div></div>
+          <span class="synergy-pct">90%</span>
+        </div>
+        <div class="synergy-track">
+          <span class="synergy-name">Brand Compatibility</span>
+          <div class="synergy-bar-bg"><div class="synergy-bar-fill" style="width:95%"></div></div>
+          <span class="synergy-pct">95%</span>
+        </div>
+      </div>
+      <p style="margin-top:20px;">Network Posture Monitoring is, in many ways, the technical infrastructure that Canary's intelligence product should eventually run on. Building NPM as a standalone service is simultaneously building Canary's data backbone. These two businesses are best understood as the same business at different stages of development — NPM is the MVP of the intelligence platform that Canary sells access to at the institutional tier. This is less a complementary business than an architectural decision about how to sequence the same build.</p>
+    </div>
+
+  </div>
+</article>
+
+
+<!-- ════════════════════════════════════════════════════════ BRIEF 05 -->
+<article class="brief" id="brief-05">
+  <div class="brief-header">
+    <div>
+      <div class="brief-code">CONCEPT 05 — PSP</div>
+      <h2 class="brief-name">Physical SIM Intelligence Platform</h2>
+      <p class="brief-thesis">"The definitive field guide to local SIM acquisition globally — an editorially opinionated, field-tested database built on the premise that the rush to eSIM has created a knowledge vacuum that matters to the people who travel seriously."</p>
+    </div>
+    <div class="brief-vitals">
+      <div class="vital">
+        <span class="vital-label">Viability</span>
+        <div class="signal-bars">
+          <div class="bar lit"></div>
+          <div class="bar lit"></div>
+          <div class="bar lit"></div>
+          <div class="bar"></div>
+          <div class="bar"></div>
+        </div>
+      </div>
+      <div class="vital">
+        <span class="vital-label">Capital to Launch</span>
+        <span class="vital-value amber">$8,000 – $20,000</span>
+      </div>
+      <div class="vital">
+        <span class="vital-label">Time to First Revenue</span>
+        <span class="vital-value">3 – 5 months</span>
+      </div>
+      <div class="vital">
+        <span class="vital-label">Revenue Type</span>
+        <span class="vital-value blue">Subscription + Affiliate</span>
+      </div>
+      <div class="vital">
+        <span class="vital-label">Partner Urgency</span>
+        <span class="vital-value amber">MEDIUM — Platform Builder</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="brief-body">
+
+    <div class="section full">
+      <div class="section-label">The Concept</div>
+      <p>The entire travel connectivity industry has unified around eSIM. Airalo, Holafly, Nomad, and dozens of competitors sell digital SIM profiles that travelers download before departure. The universal message is that eSIM is the future and physical SIMs are obsolete. This is demonstrably false in a significant portion of the world — and nobody is saying so clearly.</p>
+      <p>In Sub-Saharan Africa, across much of South and Southeast Asia, and in significant parts of Eastern Europe and Central Asia, local physical SIMs remain dramatically superior to eSIM alternatives: they're cheaper, faster, more reliable, and carry local numbers that matter for in-country communications. The eSIM products covering these markets are often running on inferior roaming agreements that produce materially worse speeds and reliability than simply buying a local SIM at the airport. The traveler who gets off a plane in Nairobi and activates an Airalo plan is often paying three times more for half the speed of an M-PESA Safaricom SIM they could have bought in the arrivals hall for the equivalent of four dollars.</p>
+      <p>The Physical SIM Intelligence Platform (PSP) is a database, editorial platform, and traveler resource that captures this knowledge: for every country in the world, what is the best local SIM option, where to acquire it, what the registration requirements mean for privacy and identity exposure, what the honest tradeoff is between eSIM convenience and local SIM quality, and what the surveillance posture of the dominant operators looks like. This is the platform Nick's personal knowledge has been building toward for twenty years — it is the anthropological project of tracking how cultures build their mobile connectivity infrastructure, expressed as a practical field guide.</p>
+      <div class="pull-quote"><p>Every market is different. Uzbekistan's Ucell vs. Beeline fight tells you something about Russian telecom influence in Central Asia. Safaricom's dominance in Kenya tells you something about where M-Pesa put its roots. This is not just connectivity advice — it is a window into how each country built its relationship with the mobile network era.</p></div>
+    </div>
+
+    <div class="section right-border">
+      <div class="section-label">Why Now</div>
+      <h3>The Moment</h3>
+      <p>eSIM adoption has accelerated sharply since Apple launched eSIM-only iPhones in the US in 2022. The knowledge of how to navigate local SIM markets — which was previously common traveler knowledge — is rapidly being lost as a generation of travelers who never bought a physical SIM abroad grows up with eSIM as their default. The gap between "the eSIM marketing says this works" and "what actually works on the ground" is widening every year.</p>
+      <p>There is also a new urgency around privacy. Local SIM registration requirements have expanded dramatically across Asia, Africa, and the Middle East. Knowing what a registration requirement actually exposes — whether biometric data is collected, who has access to registration records, whether a tourist registration differs from a citizen registration — is genuinely valuable intelligence that no current product surfaces clearly.</p>
+    </div>
+
+    <div class="section">
+      <div class="section-label">Platform Architecture</div>
+      <h3>What Gets Built</h3>
+      <p><strong>Country Guides:</strong> Structured profiles for every country covering the major operators, honest quality assessments, SIM acquisition logistics (airport, city center, documentation required), registration requirements and their privacy implications, and the honest eSIM vs. local SIM recommendation with context.</p>
+      <p><strong>Field Notes:</strong> Shorter, travel-blog-style dispatches from specific cities or situations — "what actually happened when I tried to get a SIM in Ashgabat" or "the difference between Vodafone and local operators in Cairo." These are SEO-rich, shareable, and community-building.</p>
+      <p><strong>Operator Intelligence:</strong> A secondary layer that covers operator ownership, government relationships, and surveillance posture for intelligence-aware travelers. This is where PSP overlaps with MTI content and creates a natural upsell path.</p>
+      <p><strong>Community Layer:</strong> User-submitted signal reports — crowd-sourced speed tests, registration experience reports, acquisition difficulty scores — that keep data current and create engagement beyond editorial content.</p>
+    </div>
+
+    <div class="section full">
+      <div class="section-label">Revenue Model</div>
+      <div class="revenue-rows">
+        <div class="revenue-row">
+          <div>
+            <div class="rev-name">FREE TIER — COUNTRY GUIDES</div>
+            <div class="rev-sub">Basic country profiles publicly accessible. Optimized for SEO. Drives subscriber acquisition and affiliate click-throughs.</div>
+          </div>
+          <div class="rev-price">$0 / audience builder</div>
+        </div>
+        <div class="revenue-row">
+          <div>
+            <div class="rev-name">PAID SUBSCRIPTION</div>
+            <div class="rev-sub">Full database access, Field Notes, operator intelligence layer, community reports, and download access to destination PDFs. Targets the frequent international traveler who uses the platform multiple times per year.</div>
+          </div>
+          <div class="rev-price">$8 – $15 / month</div>
+        </div>
+        <div class="revenue-row">
+          <div>
+            <div class="rev-name">DESTINATION PDF PACKS</div>
+            <div class="rev-sub">Downloadable PDF briefs for specific countries. Sold individually, targeted at infrequent travelers who only need one destination. Strong long-tail SEO product.</div>
+          </div>
+          <div class="rev-price">$12 – $25 each</div>
+        </div>
+        <div class="revenue-row">
+          <div>
+            <div class="rev-name">AFFILIATE REVENUE</div>
+            <div class="rev-sub">Referral fees from eSIM providers for markets where eSIM genuinely is the right recommendation. From local SIM resellers in specific markets. From VPN providers, travel insurance, and travel gear aligned with the platform's audience.</div>
+          </div>
+          <div class="rev-price">$5 – $30 per conversion</div>
+        </div>
+        <div class="revenue-row">
+          <div>
+            <div class="rev-name">DATA LICENSING</div>
+            <div class="rev-sub">Long-term: license structured country/operator data to travel apps, itinerary builders, corporate travel management platforms. High ceiling if the database reaches authoritative scale.</div>
+          </div>
+          <div class="rev-price">Custom / enterprise</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section full">
+      <div class="section-label">Path to Market</div>
+      <div class="phases">
+        <div class="phase">
+          <div class="phase-num">PHASE 01<div class="phase-timing">Months 1–3</div></div>
+          <div class="phase-content">
+            <div class="phase-title">Build the Core Database</div>
+            <div class="phase-desc">Launch with 40–50 country guides covering the highest-traffic destinations: Western Europe, US, UK, Japan, Australia, Canada, and the high-demand emerging markets (India, Kenya, South Africa, UAE, Thailand, Brazil, Turkey). Quality matters more than quantity here — each guide should be notably better than anything currently available.</div>
+          </div>
+        </div>
+        <div class="phase">
+          <div class="phase-num">PHASE 02<div class="phase-timing">Months 3–5</div></div>
+          <div class="phase-content">
+            <div class="phase-title">Launch and SEO Foundation</div>
+            <div class="phase-desc">Publish free tier. Optimize heavily for search ("best SIM card in [country]," "eSIM vs local SIM in [country]"). This is a content business with SEO as the primary acquisition channel — investment in structured content and technical SEO from the start pays dividends at 12–18 months. Target 5,000 monthly unique visitors by month 6.</div>
+          </div>
+        </div>
+        <div class="phase">
+          <div class="phase-num">PHASE 03<div class="phase-timing">Month 5–8</div></div>
+          <div class="phase-content">
+            <div class="phase-title">Launch Paid Tier and Community</div>
+            <div class="phase-desc">Once organic traffic is established, launch the paid subscription and individual PDF sales. Begin building the community layer with user-submitted reports — this creates engagement and keeps data current without requiring Nick to personally update every country guide. Target 200 paid subscribers by month 9.</div>
+          </div>
+        </div>
+        <div class="phase">
+          <div class="phase-num">PHASE 04<div class="phase-timing">Month 9+</div></div>
+          <div class="phase-content">
+            <div class="phase-title">The Operator Intelligence Expansion</div>
+            <div class="phase-desc">Add the surveillance posture and operator intelligence layer to the platform. This is where PSP differentiates from any travel SIM comparison site and begins to appeal to the same professional audience that MTI serves. At this point, PSP is essentially the free-and-accessible consumer face of what MTI covers at a deeper analytical level — and the two brands can cross-promote naturally.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section right-border">
+      <div class="section-label">Ideal Business Partner Profile</div>
+      <h3>What the Platform Needs</h3>
+      <p>PSP needs a <strong>platform and content operations partner</strong> — someone who understands SEO, content management systems, and the mechanics of building an audience-monetization business. This could be a former travel blogger who has built a content-first business and wants to work on something with more analytical depth, or a technical partner who has built content platforms and understands the growth mechanics of subscription media.</p>
+      <p>As the database grows, regional contributors become important — people with genuine local knowledge who can keep specific country guides current and accurate. These are likely freelance contributors rather than full partners.</p>
+      <div class="partner-tags">
+        <span class="tag amber">Content Platform / SEO</span>
+        <span class="tag">Subscription Media</span>
+        <span class="tag">Travel Media Background</span>
+        <span class="tag">Community Building</span>
+        <span class="tag">Web Development</span>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-label">Capital Requirements</div>
+      <div class="capital-block">
+        <div class="capital-amount">$8,000–$20,000</div>
+        <div class="capital-note">Platform development ($4,000–10,000), initial content production labor ($2,000–5,000 — primarily Nick's time but possibly paid contributors for gaps), SEO tools and distribution ($1,000–2,000/year), design and brand ($1,000–3,000). Content businesses are primarily time investments, not capital investments — the risk is sustained output bandwidth, not cash.</div>
+      </div>
+    </div>
+
+    <div class="section full">
+      <div class="section-label">Risk Factors</div>
+      <ul class="risk-list">
+        <li>Content maintenance is relentless. SIM markets change, operators merge, registration requirements shift, prices fluctuate. A database that goes stale loses credibility rapidly — and the audience for this product is exactly the kind of expert traveler who will notice outdated information.</li>
+        <li>The obvious comparison to resources like Prepaid Data SIM Wiki and r/SIMcards on Reddit must be addressed head-on. PSP wins on editorial quality, analytical depth, and the operator intelligence layer — not on community size or community-generated content, which Reddit will always win.</li>
+        <li>Subscription revenue per user is relatively low ($10–15/mo). Scale is required for meaningful revenue. This is a volume business, not a high-ARPU business — which means it's a slower path to significant income than the advisory concepts.</li>
+        <li>SEO is the primary acquisition channel, which means Google algorithm changes create concentration risk. Building a direct email audience alongside SEO is critical from the start.</li>
+        <li>Of all concepts in this document, PSP has the weakest direct Canary synergy and the most work to reach the same institutional client base. It's a consumer business that eventually touches professional/institutional through the data licensing layer.</li>
+      </ul>
+    </div>
+
+    <div class="section full">
+      <div class="section-label">Canary Intelligence Synergy</div>
+      <div class="synergy-meter">
+        <div class="synergy-track">
+          <span class="synergy-name">Intelligence Overlap</span>
+          <div class="synergy-bar-bg"><div class="synergy-bar-fill" style="width:50%"></div></div>
+          <span class="synergy-pct">50%</span>
+        </div>
+        <div class="synergy-track">
+          <span class="synergy-name">Client Base Overlap</span>
+          <div class="synergy-bar-bg"><div class="synergy-bar-fill" style="width:25%"></div></div>
+          <span class="synergy-pct">25%</span>
+        </div>
+        <div class="synergy-track">
+          <span class="synergy-name">Brand Compatibility</span>
+          <div class="synergy-bar-bg"><div class="synergy-bar-fill" style="width:55%"></div></div>
+          <span class="synergy-pct">55%</span>
+        </div>
+      </div>
+      <p style="margin-top:20px;">PSP's synergy with Canary is limited but real — the operator intelligence layer on the platform shares source material with Canary's research, and the data licensing opportunity eventually intersects with Canary's institutional client base. More importantly, PSP builds the broadest public audience of any concept here — which has indirect value for Canary's brand authority even if the customer sets don't directly overlap. Best thought of as a consumer brand that sits in the same ecosystem as Canary, not as a direct feeder.</p>
+    </div>
+
+  </div>
+</article>
+
+
+<!-- ════════════════════════════════════════════════════════ BRIEF 06 -->
+<article class="brief" id="brief-06">
+  <div class="brief-header">
+    <div>
+      <div class="brief-code">CONCEPT 06 — ICC</div>
+      <h2 class="brief-name">International Connectivity Concierge</h2>
+      <p class="brief-thesis">"A managed connectivity service for professional services firms whose employees travel internationally — handling pre-trip provisioning, network optimization, and billing consolidation so that the client never has to think about it again."</p>
+    </div>
+    <div class="brief-vitals">
+      <div class="vital">
+        <span class="vital-label">Viability</span>
+        <div class="signal-bars">
+          <div class="bar lit"></div>
+          <div class="bar lit"></div>
+          <div class="bar lit"></div>
+          <div class="bar lit"></div>
+          <div class="bar"></div>
+        </div>
+      </div>
+      <div class="vital">
+        <span class="vital-label">Capital to Launch</span>
+        <span class="vital-value amber">$5,000 – $15,000</span>
+      </div>
+      <div class="vital">
+        <span class="vital-label">Time to First Revenue</span>
+        <span class="vital-value">4 – 10 weeks</span>
+      </div>
+      <div class="vital">
+        <span class="vital-label">Revenue Type</span>
+        <span class="vital-value blue">Monthly Retainer + Markup</span>
+      </div>
+      <div class="vital">
+        <span class="vital-label">Partner Urgency</span>
+        <span class="vital-value amber">MEDIUM — Operations &amp; Sales</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="brief-body">
+
+    <div class="section full">
+      <div class="section-label">The Concept</div>
+      <p>Enterprise mobility management is a mature market dominated by players like Verizon Business, Vodafone Global Enterprise, and Telnyx. Individual traveler eSIM is a mature market dominated by Airalo and its dozens of competitors. The gap between them — the professional services firm with 20–100 employees who travel internationally without meaningful support — remains largely unserved.</p>
+      <p>The International Connectivity Concierge fills this gap with a managed service: a dedicated connectivity partner for boutique professional services firms that handles everything their employees need to stay connected internationally. This means pre-trip eSIM provisioning with country-specific operator recommendations (not just "here's an Airalo link"), billing consolidation so the firm receives one monthly invoice instead of dozens of individual expense reports, annual connectivity audits to optimize spend, and direct access to an expert when something goes wrong at 11pm in Jakarta.</p>
+      <p>The intelligence layer is what separates this from a glorified eSIM reseller: the connectivity recommendations are backed by genuine network knowledge. When an associate is traveling to Uzbekistan for due diligence, the ICC doesn't just push them the cheapest eSIM — it tells them which operator to use and why, warns them about registration requirements that create data exposure, and recommends a backup satellite option if the meeting involves sensitive communications. That judgment is not something Airalo can replicate.</p>
+      <div class="pull-quote"><p>The clients this service targets — boutique PE firms, international law firms, development finance, and consulting boutiques — already spend substantially on travel. They are not price-sensitive. They are attention-sensitive. They will pay meaningfully for the service of never having to think about this again.</p></div>
+    </div>
+
+    <div class="section right-border">
+      <div class="section-label">Target Market</div>
+      <h3>The Underserved Firm</h3>
+      <p><strong>Boutique PE and VC Firms:</strong> 10–80 investment professionals, frequent travel to portfolio company markets, due diligence travel to emerging markets. Travel management is often outsourced or handled by an office manager who has no connectivity expertise. Immediate Canary crossover opportunity.</p>
+      <p><strong>International Law Firms (Mid-Size):</strong> 50–200 attorneys, frequent international travel for client work, arbitration, and deal closings. International travel is core to the business model. GC's office manages vendor relationships — this is a professional services sale, not a consumer one.</p>
+      <p><strong>Development Finance and Consulting:</strong> Firms like McKinsey's public sector practice, Dalberg, Palladium, and similar organizations with extensive field presence in emerging markets. They deploy people into complex environments regularly and have significant connectivity challenges that current solutions don't address.</p>
+      <p><strong>Media Organizations with Field Correspondents:</strong> Regional news organizations, documentary production companies, and investigative journalism outlets with international production. The intelligence layer of the Concierge is especially valuable here.</p>
+    </div>
+
+    <div class="section">
+      <div class="section-label">What the Service Delivers</div>
+      <h3>The Concierge Stack</h3>
+      <p><strong>Connectivity Profiling:</strong> At onboarding, every employee who travels internationally gets a connectivity profile — what devices they carry, where they travel regularly, what their usage patterns look like, and what their risk tolerance is for network security. This is the foundation of personalized service.</p>
+      <p><strong>Pre-Trip Provisioning:</strong> Before every international trip, the employee receives a provisioned eSIM with the ICC's recommended operator for that destination, a brief on what to expect, and backup options. Zero friction required from the traveler.</p>
+      <p><strong>Billing Consolidation:</strong> All connectivity spend flows through one account, producing one monthly invoice to the firm. Expense reporting is eliminated. Spend tracking is automatic.</p>
+      <p><strong>Expert Access:</strong> Direct line to Nick (or the team) for connectivity questions — in-trip troubleshooting, network advice, and real-time guidance for unusual situations.</p>
+      <p><strong>Annual Optimization Review:</strong> Yearly analysis of the firm's connectivity spend, usage patterns, and network conditions in active markets, with recommendations for the coming year.</p>
+    </div>
+
+    <div class="section full">
+      <div class="section-label">Revenue Model</div>
+      <div class="revenue-rows">
+        <div class="revenue-row">
+          <div>
+            <div class="rev-name">SETUP AND ONBOARDING</div>
+            <div class="rev-sub">Initial connectivity profiling, account setup, and team briefing. One-time fee per firm.</div>
+          </div>
+          <div class="rev-price">$500 – $2,000</div>
+        </div>
+        <div class="revenue-row">
+          <div>
+            <div class="rev-name">MONTHLY MANAGEMENT FEE</div>
+            <div class="rev-sub">Per-firm retainer covering all management, provisioning, billing, and expert access. Scaled by number of traveling employees. 10 travelers: ~$400/mo. 50 travelers: ~$1,500/mo.</div>
+          </div>
+          <div class="rev-price">$300 – $2,000 / month</div>
+        </div>
+        <div class="revenue-row">
+          <div>
+            <div class="rev-name">CONNECTIVITY MARKUP</div>
+            <div class="rev-sub">20–35% margin on all eSIM and data provisioning passed through to the client. For a firm with 20 active travelers, this alone can generate $200–600/mo in gross margin.</div>
+          </div>
+          <div class="rev-price">20–35% on data cost</div>
+        </div>
+        <div class="revenue-row">
+          <div>
+            <div class="rev-name">ANNUAL OPTIMIZATION REVIEW</div>
+            <div class="rev-sub">Detailed annual analysis of firm's connectivity spend and optimization recommendations. Value-add that justifies renewal and demonstrates ROI.</div>
+          </div>
+          <div class="rev-price">$500 – $2,000 / year</div>
+        </div>
+        <div class="revenue-row">
+          <div>
+            <div class="rev-name">INTELLIGENCE ADD-ON</div>
+            <div class="rev-sub">Upgrade tier that includes Pre-Trip Comms Briefs (Concept 01) for all international deployments. Natural cross-sell that increases per-firm revenue and demonstrates the intelligence layer.</div>
+          </div>
+          <div class="rev-price">$500 – $1,500 / month add-on</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section full">
+      <div class="section-label">Path to Market</div>
+      <div class="phases">
+        <div class="phase">
+          <div class="phase-num">PHASE 01<div class="phase-timing">Weeks 1–4</div></div>
+          <div class="phase-content">
+            <div class="phase-title">Build the Back-End Provisioning Capability</div>
+            <div class="phase-desc">Establish accounts with 2–3 wholesale eSIM providers (Gigs, eSIM Access, or direct via a Transatel/1Global partnership). Build a simple internal tracking system for clients, devices, and provisioning status. This doesn't need to be a product yet — a well-organized Notion database and a provisioning workflow is sufficient for the first 5–10 clients.</div>
+          </div>
+        </div>
+        <div class="phase">
+          <div class="phase-num">PHASE 02<div class="phase-timing">Weeks 4–8</div></div>
+          <div class="phase-content">
+            <div class="phase-title">Pilot with Warm Contacts</div>
+            <div class="phase-desc">The first ICC clients should come from the existing Canary prospect network — Columbia Capital, 57 Stars, and similar boutique PE firms have exactly the right employee profile. Offer a 3-month pilot at reduced rates in exchange for feedback and a case study. The goal is to prove out the service model and understand where the friction points are before scaling.</div>
+          </div>
+        </div>
+        <div class="phase">
+          <div class="phase-num">PHASE 03<div class="phase-timing">Months 2–5</div></div>
+          <div class="phase-content">
+            <div class="phase-title">Productize and Expand</div>
+            <div class="phase-desc">With 2–3 pilot clients producing real usage data, productize the service: build a proper client dashboard, formalize the onboarding process, and create the marketing materials for sales outreach. Expand from PE into law firms and consulting firms — where the purchase decision is made by the COO or office manager and the ROI story (elimination of expense report friction + expert guidance) is clear.</div>
+          </div>
+        </div>
+        <div class="phase">
+          <div class="phase-num">PHASE 04<div class="phase-timing">Months 5–12</div></div>
+          <div class="phase-content">
+            <div class="phase-title">Partner Channel and Scale</div>
+            <div class="phase-desc">Approach corporate travel management companies (TripActions, Navan, Egencia) about a partnership where ICC is the recommended connectivity solution for their clients. This is a channel play — their distribution into exactly the right client base multiplies your reach without requiring a large sales team. Also explore white-label partnership with law firm IT consultants and corporate travel agencies.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section right-border">
+      <div class="section-label">Ideal Business Partner Profile</div>
+      <h3>The Operations Engine</h3>
+      <p>ICC requires a partner who is the <strong>operational and client-relationship engine</strong> — someone who thrives on account management, can build and maintain client relationships, and has the operational discipline to run a provisioning and billing service reliably. Nick brings the intelligence layer and the product design; this partner runs the day-to-day service.</p>
+      <p>The best profile is someone with corporate travel management or enterprise SaaS customer success experience — someone who has managed client accounts at scale and understands the operational requirements of a recurring service business. Sales background into professional services firms is a major plus.</p>
+      <div class="partner-tags">
+        <span class="tag amber">Account Management</span>
+        <span class="tag">Corporate Travel</span>
+        <span class="tag">Operations</span>
+        <span class="tag">Enterprise SaaS</span>
+        <span class="tag">Professional Services Sales</span>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-label">Capital Requirements</div>
+      <div class="capital-block">
+        <div class="capital-amount">$5,000–$15,000</div>
+        <div class="capital-note">Provisioning infrastructure and eSIM wholesale accounts ($1,000–2,000 setup), client management tooling ($500–1,000/year), website and sales collateral ($2,000–4,000), legal/entity setup ($500–1,000). Working capital to front eSIM costs before client billing may add $2,000–5,000 depending on growth rate. This is an operationally lean business — the capital requirement grows with the client base rather than preceding it.</div>
+      </div>
+    </div>
+
+    <div class="section full">
+      <div class="section-label">Risk Factors</div>
+      <ul class="risk-list">
+        <li>This is an operationally intensive business. Unlike the intelligence/publication concepts, the Concierge requires active management of provisioning, billing, and client issues on an ongoing basis. Without a partner who owns operations, Nick's bandwidth becomes the ceiling.</li>
+        <li>Margin compression is a real risk at scale. As the client base grows, the intelligence layer that justifies premium pricing must remain genuinely differentiated — or clients will eventually find cheaper alternatives.</li>
+        <li>The business is susceptible to disintermediation by large players. If Airalo or a major corporate travel platform adds a "smart provisioning" product, the pure provisioning layer of the Concierge is at risk. The intelligence layer is the moat.</li>
+        <li>Client concentration risk is high at launch. Two or three clients representing the majority of revenue creates fragility. The sales effort must be continuous even when the service is full.</li>
+        <li>Enterprise sales cycles, even to boutique firms, can run 4–8 weeks from first conversation to first invoice. Cash flow management matters in the early months.</li>
+      </ul>
+    </div>
+
+    <div class="section full">
+      <div class="section-label">Canary Intelligence Synergy</div>
+      <div class="synergy-meter">
+        <div class="synergy-track">
+          <span class="synergy-name">Intelligence Overlap</span>
+          <div class="synergy-bar-bg"><div class="synergy-bar-fill" style="width:65%"></div></div>
+          <span class="synergy-pct">65%</span>
+        </div>
+        <div class="synergy-track">
+          <span class="synergy-name">Client Base Overlap</span>
+          <div class="synergy-bar-bg"><div class="synergy-bar-fill" style="width:85%"></div></div>
+          <span class="synergy-pct">85%</span>
+        </div>
+        <div class="synergy-track">
+          <span class="synergy-name">Brand Compatibility</span>
+          <div class="synergy-bar-bg"><div class="synergy-bar-fill" style="width:80%"></div></div>
+          <span class="synergy-pct">80%</span>
+        </div>
+      </div>
+      <p style="margin-top:20px;">The client base overlap between ICC and Canary is the highest of any concept in this document. The boutique PE firm that subscribes to Canary's network intelligence product is the same firm whose associates need managed connectivity for their emerging market deal travel. The ICC can be positioned as Canary's operational arm — the service that makes network intelligence actionable in the field, not just at the analyst's desk. This is the concept that most directly converts Canary's institutional relationships into a complementary recurring revenue stream.</p>
+    </div>
+
+  </div>
+</article>
+
+
+<!-- ════════════════════════════════════════════════════════ FOOTER -->
+<footer>
+  <p>MOBILE INTELLIGENCE VENTURES — SIX CONCEPT BRIEFINGS — JUNE 2026</p>
+  <p>PROPRIETARY AND CONFIDENTIAL — NOT FOR DISTRIBUTION</p>
+</footer>
+
+</body>
+</html>
